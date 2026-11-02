@@ -14,7 +14,6 @@ use crate::runtime::{stream::WATERStreamTrait, transport::WATERTransportTrait, *
 ///    Read  =>  w2u  +----------------+
 ///                      WATERStream
 /// ```
-
 pub struct WATERStream<Host> {
     /// the reader in WASM (read from net -- n2w), returns the number of bytes read
     pub reader: Func,

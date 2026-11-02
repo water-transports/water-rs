@@ -90,11 +90,11 @@ impl WATERRelayTrait for WATERRelay<Host> {
                         v0_conf.create_listener(true)?;
                     }
                     Err(e) => {
-                        return Err(anyhow::anyhow!("Failed to lock v0_conf: {}", e))?;
+                        return Err(anyhow::anyhow!("Failed to lock v0_conf: {}", e));
                     }
                 },
                 None => {
-                    return Err(anyhow::anyhow!("v0_conf is None"))?;
+                    return Err(anyhow::anyhow!("v0_conf is None"));
                 }
             }
         }

@@ -127,7 +127,7 @@ impl H2O<Host> {
                 None => {
                     return Err(anyhow::anyhow!(
                         "v0_conf wasn't initialized / setup correctly"
-                    ))?;
+                    ));
                 }
             },
 

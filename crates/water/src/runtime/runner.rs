@@ -25,7 +25,7 @@ impl WATERRunner<Host> {
             .get_func(&mut *store, &conf.entry_fn)
             .context(format!(
                 "failed to find declared entry function: {}",
-                &conf.entry_fn
+                conf.entry_fn
             ))?;
         match fnc.call(&mut *store, &[], &mut []) {
             Ok(_) => {}

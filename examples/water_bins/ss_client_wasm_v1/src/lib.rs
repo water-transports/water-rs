@@ -6,7 +6,7 @@ pub const MAX_PACKET_SIZE: usize = 0x3FFF;
 use std::{
     fmt::{self, Debug},
     future::Future,
-    io::{self, ErrorKind, Read},
+    io::{self, Read},
     net::{IpAddr, SocketAddr},
     os::fd::FromRawFd,
     pin::Pin,

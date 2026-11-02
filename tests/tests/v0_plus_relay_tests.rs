@@ -8,7 +8,7 @@ use tracing::Level;
 
 use std::{
     fs::File,
-    io::{Error, ErrorKind, Read, Write},
+    io::{Error, Read, Write},
     net::{TcpListener, TcpStream},
 };
 
@@ -107,8 +107,7 @@ fn test_cross_lang_wasm_relay() -> Result<(), Box<dyn std::error::Error>> {
         Ok(_) => {}
         Err(e) => {
             eprintln!("Running _water_worker ERROR: {}", e);
-            return Err(Box::new(Error::new(
-                ErrorKind::Other,
+            return Err(Box::new(Error::other(
                 "Failed to join _water_worker thread",
             )));
         }
