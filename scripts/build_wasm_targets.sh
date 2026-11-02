@@ -12,6 +12,6 @@ members=(
 
 for member in "${members[@]}"; do
     pushd $member
-    cargo build --verbose --target wasm32-wasi
+    cargo build --verbose --target wasm32-wasip1
     popd
 done
