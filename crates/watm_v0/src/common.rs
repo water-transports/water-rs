@@ -4,6 +4,9 @@ use std::os::fd::FromRawFd;
 use tokio::net::TcpStream;
 
 // WASI Imports
+// The host provides these in the "env" module. Say so explicitly: since Rust 1.96
+// the wasm linker no longer turns undefined functions into "env" imports by itself.
+#[link(wasm_import_module = "env")]
 extern "C" {
     /// obtain a connection (specified by returned fd) accepted by the host
     pub fn host_accept() -> i32;

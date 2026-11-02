@@ -35,6 +35,9 @@ use anyhow::Result;
 use serde::{Deserialize, Serialize};
 
 // =================== WASM Imports =====================
+// The host provides these in the "env" module. Say so explicitly: since Rust 1.96
+// the wasm linker no longer turns undefined functions into "env" imports by itself.
+#[link(wasm_import_module = "env")]
 extern "C" {
     /// These functions are exported from the host to the WATM module,
     /// which means host must provide these functions to the WATM module.
