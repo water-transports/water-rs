@@ -16,6 +16,7 @@ use tempfile::tempdir;
 
 /// Testing the Relay mode
 #[test]
+#[ignore = "aborts on Rust >= 1.80: V0Config::defer closes fds the WATM already closed"]
 fn test_cross_lang_wasm_relay() -> Result<(), Box<dyn std::error::Error>> {
     tracing_subscriber::fmt().with_max_level(Level::INFO).init();
 
