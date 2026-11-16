@@ -17,7 +17,7 @@ You can config it as the following:
 
 ## How to compile?
 ```shell
-cargo build --target wasm32-wasi && mv ../../../target/wasm32-wasi/debug/echo_client.wasm ./echo_client.wasm
+cargo build --target wasm32-wasip1 && mv ../../../target/wasm32-wasip1/debug/echo_client.wasm ./echo_client.wasm
 ```
 
 If you want to optmize the size of the `.wasm` binary:

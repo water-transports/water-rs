@@ -104,18 +104,18 @@ pub async fn handle_incoming(mut water_client: WATERClient) -> Result<(), anyhow
         let mut buf = vec![0; 1024];
         let res = water_client.read(&mut buf);
 
-        if res.is_ok() {
-            let str_buf = String::from_utf8(buf).unwrap();
-            if str_buf.trim() == "exit" {
-                water_client.cancel().unwrap();
-                break;
-            }
-
-            println!("Received: {}", str_buf);
-        } else {
-            println!("Error: {}", res.unwrap_err());
+        if let Err(e) = res {
+            println!("Error: {}", e);
             break;
         }
+
+        let str_buf = String::from_utf8(buf).unwrap();
+        if str_buf.trim() == "exit" {
+            water_client.cancel().unwrap();
+            break;
+        }
+
+        println!("Received: {}", str_buf);
     }
 
     match handle_water.join().unwrap() {
