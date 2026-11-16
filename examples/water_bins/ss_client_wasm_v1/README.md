@@ -17,7 +17,7 @@ Currently the config we have written into the client is:
 
 ## How to compile?
 ```shell
-cargo build --target wasm32-wasi && mv ../../../target/wasm32-wasi/debug/ss_client_wasm.wasm ./ss_client_wasm.wasm
+cargo build --target wasm32-wasip1 && mv ../../../target/wasm32-wasip1/debug/ss_client_wasm.wasm ./ss_client_wasm.wasm
 ```
 
 If you want to optmize the size of the `.wasm` binary:

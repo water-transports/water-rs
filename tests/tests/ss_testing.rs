@@ -57,11 +57,9 @@ impl Socks5TestServer {
             local_addr,
             svr_config: {
                 let mut cfg = Config::new(ConfigType::Server);
-                cfg.server = vec![ServerInstanceConfig::with_server_config(ServerConfig::new(
-                    svr_addr,
-                    pwd.to_owned(),
-                    method,
-                ))];
+                cfg.server = vec![ServerInstanceConfig::with_server_config(
+                    ServerConfig::new(svr_addr, pwd.to_owned(), method).unwrap(),
+                )];
                 cfg.server[0].config.set_mode(if enable_udp {
                     Mode::TcpAndUdp
                 } else {
@@ -79,11 +77,9 @@ impl Socks5TestServer {
                 } else {
                     Mode::TcpOnly
                 };
-                cfg.server = vec![ServerInstanceConfig::with_server_config(ServerConfig::new(
-                    svr_addr,
-                    pwd.to_owned(),
-                    method,
-                ))];
+                cfg.server = vec![ServerInstanceConfig::with_server_config(
+                    ServerConfig::new(svr_addr, pwd.to_owned(), method).unwrap(),
+                )];
                 cfg
             },
         }
@@ -170,7 +166,7 @@ async fn wasm_managed_shadowsocks_async() -> Result<(), Box<dyn std::error::Erro
     let wasm_ss_client_addr = SocketAddr::new("127.0.0.1".parse().unwrap(), 8080);
 
     // Give some time for the WASM client to start
-    thread::sleep(Duration::from_millis(100));
+    thread::sleep(Duration::from_millis(1000));
 
     // ==== test WASM Shadowsocks client ====
     let mut c = Socks5TcpClient::connect(
@@ -189,8 +185,12 @@ async fn wasm_managed_shadowsocks_async() -> Result<(), Box<dyn std::error::Erro
     let mut buf = Vec::new();
     r.read_until(b'\n', &mut buf).await.unwrap();
 
-    let http_status = b"HTTP/1.0 200 OK\r\n";
-    assert!(buf.starts_with(http_status));
+    // detectportal.firefox.com now answers this HTTP/1.0 request with HTTP/1.1
+    assert!(
+        buf.starts_with(b"HTTP/1.0 200 OK\r\n") || buf.starts_with(b"HTTP/1.1 200 OK\r\n"),
+        "unexpected status line: {:?}",
+        String::from_utf8_lossy(&buf)
+    );
 
     Ok(())
 }
@@ -263,8 +263,12 @@ async fn wasm_managed_shadowsocks_bypass_async() -> Result<(), Box<dyn std::erro
     let mut buf = Vec::new();
     r.read_until(b'\n', &mut buf).await.unwrap();
 
-    let http_status = b"HTTP/1.0 200 OK\r\n";
-    assert!(buf.starts_with(http_status));
+    // detectportal.firefox.com now answers this HTTP/1.0 request with HTTP/1.1
+    assert!(
+        buf.starts_with(b"HTTP/1.0 200 OK\r\n") || buf.starts_with(b"HTTP/1.1 200 OK\r\n"),
+        "unexpected status line: {:?}",
+        String::from_utf8_lossy(&buf)
+    );
 
     Ok(())
 }

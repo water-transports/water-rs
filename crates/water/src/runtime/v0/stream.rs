@@ -14,7 +14,6 @@ use crate::runtime::{stream::WATERStreamTrait, transport::WATERTransportTrait, *
 ///    Read  =>  w2u  +----------------+
 ///                      WATERStream
 /// ```
-
 pub struct WATERStream<Host> {
     /// the pipe for communcating between Host and WASM
     pub caller_io: Option<UnixStream>,

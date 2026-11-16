@@ -10,10 +10,10 @@ fi
 cd "./examples/water_bins/$1" || exit 1
 
 # Build the project using cargo
-cargo build --target wasm32-wasi || exit 1
+cargo build --target wasm32-wasip1 || exit 1
 
 # Optimize the generated wasm file
-wasm-opt --strip-debug "../../../target/wasm32-wasi/debug/$2.wasm" -o "./$2.wasm" || exit 1
+wasm-opt --strip-debug "../../../target/wasm32-wasip1/debug/$2.wasm" -o "./$2.wasm" || exit 1
 
 # Copy the optimized wasm file to the destination directory
 cp "./$2.wasm" "../../../tests/test_wasm/" || exit 1

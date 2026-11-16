@@ -140,7 +140,7 @@ impl WATERListenerTrait for WATERListener<Host> {
             .core
             .instance
             .get_func(&mut *store, &conf.entry_fn)
-            .context(format!("Failed to get function {}", &conf.entry_fn))?;
+            .context(format!("Failed to get function {}", conf.entry_fn))?;
 
         match fnc.call(&mut *store, &[], &mut []) {
             Ok(_) => {}
