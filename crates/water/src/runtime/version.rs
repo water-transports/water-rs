@@ -17,10 +17,7 @@ pub enum Version {
 
 impl Version {
     pub fn parse(s: &str) -> Option<Version> {
-        match Version::from_str(s) {
-            Ok(v) => Some(v),
-            Err(_) => None,
-        }
+        Version::from_str(s).ok()
     }
 
     /// Current API v0 needs some configurations at the beginning

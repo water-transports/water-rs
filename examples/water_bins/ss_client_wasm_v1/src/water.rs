@@ -83,10 +83,7 @@ async fn _start_listen(bypass: bool) -> std::io::Result<()> {
             Ok(conn) => conn,
             Err(e) => {
                 eprintln!("[WASM] > ERROR: {}", e);
-                return Err(std::io::Error::new(
-                    std::io::ErrorKind::Other,
-                    "failed to lock CONN",
-                ));
+                return Err(std::io::Error::other("failed to lock CONN"));
             }
         };
 
@@ -275,10 +272,7 @@ pub fn _listener_creation() -> Result<i32, std::io::Error> {
         Ok(conf) => conf,
         Err(e) => {
             eprintln!("[WASM] > ERROR: {}", e);
-            return Err(std::io::Error::new(
-                std::io::ErrorKind::Other,
-                "failed to lock config",
-            ));
+            return Err(std::io::Error::other("failed to lock config"));
         }
     };
 
@@ -302,10 +296,7 @@ pub fn _listener_creation() -> Result<i32, std::io::Error> {
     let fd = unsafe { create_listen(address, size) };
 
     if fd < 0 {
-        return Err(std::io::Error::new(
-            std::io::ErrorKind::Other,
-            "failed to create listener",
-        ));
+        return Err(std::io::Error::other("failed to create listener"));
     }
 
     info!(
