@@ -84,7 +84,7 @@ pub fn export_accept(
     Ok(())
 }
 
-/// This function is exporting the `host_defer()` to the WATM where it is used to close the connection.
+/// This function is exporting the `host_defer()` to the WATM, which calls it when it is winding down (see `V0Config::defer`).
 pub fn export_defer(
     linker: &mut Linker<Host>,
     config: Arc<Mutex<V0Config>>,
