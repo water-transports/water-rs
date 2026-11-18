@@ -171,28 +171,22 @@ impl V0Config {
         }
     }
 
-    /// It will close the connection to remote / accepted connection listened and exit gracefully
+    /// It will forget the connection to remote / accepted connection listened and exit gracefully
+    ///
+    /// The connections themselves are not closed here: `host_accept` and `host_dial` hand them
+    /// to the WASI context, which owns them from then on. They are closed when the WATM closes
+    /// them or when the WASI context is dropped.
     pub fn defer(&mut self) {
         info!("[HOST] WATERCore V0 defer with conn {:?} ...", self.conn);
 
         match self.conn {
             V0CRole::Listener(_, ref mut accepted_fd) => {
                 // The accepted stream should be defered, not the listener
-                let accepted_conn = unsafe { std::net::TcpStream::from_raw_fd(*accepted_fd) };
-                drop(accepted_conn);
                 *accepted_fd = -1; // set it back to default
             }
-            V0CRole::Dialer(conn_fd) => {
-                let conn = unsafe { std::net::TcpStream::from_raw_fd(conn_fd) };
-                drop(conn);
-            }
+            V0CRole::Dialer(_) => {}
             V0CRole::Relay(_, ref mut accepted_fd, ref mut conn_fd) => {
-                let accepted_conn = unsafe { std::net::TcpStream::from_raw_fd(*accepted_fd) };
-                drop(accepted_conn);
                 *accepted_fd = -1; // set it back to default
-
-                let conn = unsafe { std::net::TcpStream::from_raw_fd(*conn_fd) };
-                drop(conn);
                 *conn_fd = -1; // set it back to default
             }
             _ => {}
